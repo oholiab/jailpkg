@@ -1,10 +1,14 @@
-.PHONY: env pipinstall
+.PHONY: env test
 
-env: bin
+env: bin bin/py.test
 
-bin: | pipinstall
+bin:
 	virtualenv --no-site-packages .
 
-pipinstall:
+bin/py.test: bin
 	bash -c "source bin/activate &&\
-		pip install -r requirements.txt
+		pip install -r requirements.txt"
+
+test: bin/py.test
+	bash -c "source bin/activate &&\
+		PYTHONPATH=$(pwd) py.test -s tests/unit/*"
