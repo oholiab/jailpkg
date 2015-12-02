@@ -2,6 +2,12 @@ import sys
 import argparse
 """Simple scripts for managing packages in jails"""
 
+def generate_command(package, jailpath, additional_args=None):
+    """Generate raw command to be run to install packages"""
+    if additional_args is None: additional_args = ''
+    command = "pkg install %s -c %s %s" % (package, jailpath, additional_args)
+    return command
+
 def main():
     p = argparse.ArgumentParser(description='Simple script for managing packages in jails')
     p.add_argument('-p', '--package', dest='package', 
@@ -14,8 +20,7 @@ def main():
     # anyway.
     package = args.package
     jailpath = args.jailpath
-
-    command = "pkg install %s -c %s" % (package, jailpath)
+    command = generate_command(package, jailpath)
     print command
 
 if __name__ == "__main__":
