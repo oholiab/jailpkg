@@ -9,9 +9,12 @@ def main():
     p.add_argument('-j', '--jailpath', dest='jailpath',
             help='full path to jail to install package in')
     args = p.parse_args()
+
+    # Not going to validate these - we'll be passing errors back from pkgng
+    # anyway.
     package = args.package
     jailpath = args.jailpath
-    print args
+
     command = "pkg install %s -c %s" % (package, jailpath)
     print command
 
