@@ -1,15 +1,19 @@
 import sys
-import os
+import argparse
 """Simple scripts for managing packages in jails"""
 
-def main(args):
-    if len(args) < 2:
-        sys.stderr.write("Requires at least 2 args\n")
-        sys.exit(1)
-    name = args[0]
-    jailpath = args[1]
-    command = "pkg install %s -c %s" % (name, jailpath)
+def main():
+    p = argparse.ArgumentParser(description='Simple script for managing packages in jails')
+    p.add_argument('-p', '--package', dest='package', 
+            help='name of package to install')
+    p.add_argument('-j', '--jailpath', dest='jailpath',
+            help='full path to jail to install package in')
+    args = p.parse_args()
+    package = args.package
+    jailpath = args.jailpath
+    print args
+    command = "pkg install %s -c %s" % (package, jailpath)
     print command
 
 if __name__ == "__main__":
-    main(sys.argv)    
+    main()    
