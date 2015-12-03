@@ -22,6 +22,3 @@ def main():
     jailpath = args.jailpath
     command = generate_command(package, jailpath)
     print command
-
-if __name__ == "__main__":
-    sys.exit(main())
