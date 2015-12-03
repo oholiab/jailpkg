@@ -9,7 +9,7 @@ setup(
         packages=find_packages(exclude=('tests*')),
         entry_points={
             'console_scripts': [
-                'jailpkg = jailpkg.jailpkg:main',
+                'jailpkg = jailpkg:main',
             ],
         },
 )
