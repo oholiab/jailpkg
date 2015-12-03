@@ -5,3 +5,4 @@ pip-selfcheck.json
 __py_cache__/
 .cache/
 *.pyc
+.Python
