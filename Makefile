@@ -7,7 +7,7 @@ bin:
 
 bin/jailpkg: bin test
 	bash -c "source bin/activate &&\
-		pip install ."
+		pip install --upgrade ."
 
 bin/py.test: bin
 	bash -c "source bin/activate &&\
@@ -18,4 +18,8 @@ test: tests/unit/ | bin/py.test
 		PYTHONPATH=$(pwd) py.test -s tests/unit/*"
 
 itest: bin/jailpkg
-	bin/jailpkg
+	bash -c "source bin/activate &&\
+		PYTHONPATH=$(pwd) bin/jailpkg"
+
+clean:
+	rm jailpkg/*.pyc
