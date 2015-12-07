@@ -36,3 +36,9 @@ def test_parse_args_fails_on_no_config_but_no_jailpath_and_package():
         with pytest.raises(j.ArgumentError) as e:
             j.parse_args(i.split(" "))
         assert errormsg == str(e.value)
+
+def test_parse_args_fails_on_no_args():
+    errormsg = "--package and --jailpath arguments must be specified together (or use --config)\n"
+    with pytest.raises(j.ArgumentError) as e:
+        j.parse_args([])
+    assert errormsg == str(e.value)
