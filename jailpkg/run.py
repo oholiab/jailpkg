@@ -1,5 +1,6 @@
 import sys
 import argparse
+import yaml
 """Simple scripts for managing packages in jails"""
 
 def generate_command(package, jailpath, additional_args=None):
@@ -7,6 +8,13 @@ def generate_command(package, jailpath, additional_args=None):
     if additional_args is None: additional_args = ''
     command = "pkg install %s -c %s %s" % (package, jailpath, additional_args)
     return command
+
+def parse_yaml_packages(filename):
+    """Get a list of package names from yaml file"""
+    packagesdict = {}
+    with open(filename, 'r') as stream:
+        packagesdict = yaml.load(stream)
+    return packagesdict
 
 def main():
     p = argparse.ArgumentParser(description='Simple script for managing packages in jails')
