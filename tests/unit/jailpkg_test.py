@@ -42,3 +42,37 @@ def test_parse_args_fails_on_no_args():
     with pytest.raises(j.ArgumentError) as e:
         j.parse_args([])
     assert errormsg == str(e.value)
+
+def test_validate_config_valid_for_valid_jailpath_keys():
+    configs = [
+            { "/jails/stuff": ["things"], },
+            ]
+    for config in configs:
+        j.validate_config(config)
+
+def test_validate_config_valid_for_invalid_jailpath_keys():
+    configs = [
+            { 3: ["things"], },
+            ]
+    for config in configs:
+        with pytest.raises(AssertionError) as e:
+            j.validate_config(config)
+
+def test_validate_config_valid_for_valid_jailpath_values():
+    configs = [
+            { "/jails/stuff": ["things"], },
+            { "/jails/stuff": ["things", "stuff"], },
+            ]
+    for config in configs:
+        j.validate_config(config)
+
+def test_validate_config_valid_for_invalid_jailpath_keys():
+    configs = [
+            { "/jails/stuff": [], },
+            { "/jails/stuff": [3, "things"], },
+            { "/jails/stuff": "things" },
+            { "/jails/stuff": { "things": "stuff"} },
+            ]
+    for config in configs:
+        with pytest.raises(AssertionError) as e:
+            j.validate_config(config)

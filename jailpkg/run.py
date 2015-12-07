@@ -19,6 +19,14 @@ def parse_yaml_packages(filename):
         packagesdict = yaml.load(stream)
     return packagesdict
 
+def validate_config(config):
+    for k, v in config.iteritems():
+        assert type(k) is str
+        assert type(v) is list
+        assert len(v) is not 0
+        for i in v:
+            assert type(i) is str
+
 def yaml_to_commands(configfile):
     """Parse a yaml file to a list of commands"""
     commandlist = []
