@@ -19,11 +19,11 @@ requirements.txt:
 
 test: tests/unit/ | bin/py.test
 	bash -c "source bin/activate &&\
-		PYTHONPATH=$(pwd) py.test -s tests/unit/*"
+		PYTHONPATH=$(pwd) py.test -sv tests/unit/*"
 
 itest: bin/jailpkg
 	bash -c "source bin/activate &&\
-		PYTHONPATH=$(pwd) bin/jailpkg"
+		PYTHONPATH=$(pwd) bin/jailpkg --package package --jailpath /some/jail"
 
 clean:
 	rm jailpkg/*.pyc
