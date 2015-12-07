@@ -3,6 +3,9 @@ import argparse
 import yaml
 """Simple scripts for managing packages in jails"""
 
+class ArgumentError(ValueError):
+    pass
+
 def generate_command(package, jailpath, additional_args=None):
     """Generate raw command to be run to install packages"""
     if additional_args is None: additional_args = ''
@@ -36,12 +39,12 @@ def parse_args(test_args=None):
         args = p.parse_args(test_args)
     else:
         args = p.parse_args()
-    if getattr(args, "package") and getattr(args, "configfile"):
-        sys.stderr.write("--package and --jailpath args are mutually exclusive to --config\n")
-        sys.exit(1)
-    if not getattr(args, "configfile") and not all([getattr(args,x) for x in ('package', 'jailpath')]):
-        sys.stderr.write("--package and --jailpath arguments must be specified together (or use --config)\n")
-        sys.exit(1) 
+
+    if (args.package is not None or args.jailpath is not None)\
+            and args.configfile is not None:
+        raise ArgumentError("--package and --jailpath args are mutually exclusive to --config\n")
+    if args.configfile is None and not all([getattr(args,x) for x in ('package', 'jailpath')]):
+        raise ArgumentError("--package and --jailpath arguments must be specified together (or use --config)\n")
     return args
 
 def main():
