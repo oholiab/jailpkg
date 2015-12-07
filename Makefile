@@ -23,7 +23,7 @@ test: tests/unit/ | bin/py.test
 
 itest: bin/jailpkg
 	bash -c "source bin/activate &&\
-		PYTHONPATH=$(pwd) bin/jailpkg --package package --jailpath /some/jail"
+		PYTHONPATH=$(pwd) bin/jailpkg --package package --jailpath /some/jail -d"
 
 clean:
 	rm jailpkg/*.pyc

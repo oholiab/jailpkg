@@ -42,7 +42,10 @@ def parse_args(test_args=None):
             help='name of package to install')
     p.add_argument('-j', '--jailpath', dest='jailpath',
             help='full path to jail to install package in')
-    p.add_argument('-c', '--config', dest='configfile')
+    p.add_argument('-c', '--config', dest='configfile',
+            help='yaml config file for jail/package mappings')
+    p.add_argument('-d', '--dryrun', action='store_true',
+            help='only print commands, do not run them')
     if not test_args == None:
         args = p.parse_args(test_args)
     else:
@@ -62,5 +65,9 @@ def main():
     # anyway.
     package = args.package
     jailpath = args.jailpath
+    dryrun = args.dryrun
     command = generate_command(package, jailpath)
-    print command
+    if dryrun is not None:
+        print command
+    else:
+        print "unimplemented lol"
