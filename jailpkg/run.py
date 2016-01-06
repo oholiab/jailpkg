@@ -1,6 +1,7 @@
 import sys
 import argparse
 import yaml
+from subprocess import call
 """Simple scripts for managing packages in jails"""
 
 class ArgumentError(ValueError):
@@ -66,8 +67,12 @@ def main():
     package = args.package
     jailpath = args.jailpath
     dryrun = args.dryrun
-    command = generate_command(package, jailpath)
-    if dryrun is not None:
-        print command
+    if args.configfile is not None:
+        commands = yaml_to_commands(args.configfile) 
     else:
-        print "unimplemented lol"
+        commands = [generate_command(package, jailpath)]
+    for command in commands: 
+        if dryrun is not None:
+            print command
+        else:
+            print "unimplemented lol"
