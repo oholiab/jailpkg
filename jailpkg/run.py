@@ -1,7 +1,8 @@
 import sys
 import argparse
 import yaml
-from subprocess import call
+import string
+from subprocess import Popen, PIPE
 """Simple scripts for managing packages in jails"""
 
 class ArgumentError(ValueError):
@@ -10,7 +11,7 @@ class ArgumentError(ValueError):
 def generate_command(package, jailpath, additional_args=None):
     """Generate raw command to be run to install packages"""
     if additional_args is None: additional_args = ''
-    command = "pkg install %s -c %s %s" % (package, jailpath, additional_args)
+    command = "pkg -c %s install --yes %s" % (jailpath, package)
     return command.rstrip()
 
 def parse_yaml_packages(filename):
@@ -72,7 +73,21 @@ def main():
     else:
         commands = [generate_command(package, jailpath)]
     for command in commands: 
-        if dryrun is not None:
+        if dryrun is True:
             print command
         else:
-            print "unimplemented lol"
+            run = Popen(string.split(command, ' '), stdin=PIPE, stderr=PIPE)
+            status = run.wait()
+            if run.stdout is not None:
+                print "STDOUT:"
+                for i in run.stdout.readlines(): print i
+                run.stdout.close()
+            if run.stderr is not None:
+                print "STDERR:"
+                for i in run.stderr.readlines(): print i
+                run.stderr.close()
+            if status != 0:
+                print "Command '%s' did not complete successfully (code %d), exiting" % (command, status)
+                sys.exit(status)
+            else:
+                print "Command '%s' successful" % command

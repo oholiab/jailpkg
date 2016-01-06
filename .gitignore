@@ -6,3 +6,5 @@ __py_cache__/
 .cache/
 *.pyc
 .Python
+*.swp
+share/

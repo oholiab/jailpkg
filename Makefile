@@ -13,10 +13,6 @@ bin/py.test: bin
 	bash -c "source bin/activate &&\
 		pip install -r requirements.txt"
 
-requirements.txt:
-	bash -c "source bin/activate &&\
-		pip freeze > requirements.txt"
-
 test: tests/unit/ | bin/py.test
 	bash -c "source bin/activate &&\
 		PYTHONPATH=$(pwd) py.test -sv tests/unit/*"
